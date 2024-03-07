@@ -1,0 +1,3 @@
+[submodule "model/snac"]
+	path = model/snac
+	url = git@github.com:bejaeger/snac.git
