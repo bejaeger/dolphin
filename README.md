@@ -15,6 +15,6 @@
   - [ ] get & transform test data
   - [ ] extract snac audio tokens from data
 - [ ] model
-  - [ ] add snac model
+  - [x] add snac model
   - [ ] add gpt2 model
 - [ ] train loop
