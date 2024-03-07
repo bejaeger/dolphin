@@ -13,7 +13,7 @@
 ## roadmap
 - [ ] data
   - [ ] get & transform test data
-  - [ ] extract snac audio tokens from data
+  - [ ] extract snac codes from data
 - [ ] model
   - [x] add snac model
   - [ ] add gpt2 model

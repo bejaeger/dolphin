@@ -1,9 +1,9 @@
 import argparse
 import logging
 import os
-import shutil
 
 import torch
+import torchaudio
 import soundfile
 
 from model.snac.snac import SNAC
@@ -21,26 +21,38 @@ def main(args: argparse.Namespace) -> None:
     if config_path is None:
         config_path = os.path.join(os.path.dirname(model_path), "config.json")
 
+    output_folder = os.path.dirname(output_path)
+    os.makedirs(output_folder, exist_ok=True)
+
     model = SNAC.from_pretrained_local(model_path=model_path, config_path=config_path)
     model.eval()
     model.to(device)
 
     pcm, sample_rate = soundfile.read(input_path)
-    pcm = torch.tensor(pcm, dtype=torch.float).to(device).unsqueeze(0).unsqueeze(0)
 
     with torch.no_grad():
+        pcm = torch.tensor(pcm, dtype=torch.float).to(device).unsqueeze(0).unsqueeze(0)
         audio_hat, z, codes, _, _ = model.encode_decode(audio_data=pcm, sample_rate=sample_rate)
 
     audio_hat = audio_hat.squeeze().cpu().numpy()
-
-    output_folder = os.path.dirname(output_path)
-    os.makedirs(output_folder, exist_ok=True)
-
     soundfile.write(output_path, audio_hat, model.sample_rate)
-    output_path_orig = output_path.replace(".wav", "_original.wav")
-    shutil.copy(input_path, output_path_orig)
 
-    logging.info(f"Saved reconstructed audio to `{output_path}` and original audio to `{output_path_orig}`")
+    output_path_orig = output_path.replace(".wav", "_original.wav")
+    if sample_rate != model.sample_rate:
+        pcm = torchaudio.functional.resample(pcm, orig_freq=sample_rate, new_freq=model.sample_rate)
+    soundfile.write(output_path_orig, pcm.squeeze().cpu().numpy(), model.sample_rate)
+
+    with torch.no_grad():
+        z_q_rec = model.quantizer.z_from_codes(codes)
+        audio_hat_hat = model.decode(z_q_rec)
+
+    output_path_rec_codes = output_path.replace(".wav", "_rec_codes.wav")
+    soundfile.write(output_path_rec_codes, audio_hat_hat.squeeze().cpu().numpy(), model.sample_rate)
+
+    logging.info(
+        f"Saved reconstructed audio to `{output_path}` "
+        f"and original audio to `{output_path_orig}` "
+        f"and reconstructed audio from codes to `{output_path_rec_codes}`")
 
 
 if __name__ == "__main__":
