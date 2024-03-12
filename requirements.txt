@@ -1,5 +1,7 @@
-import einops
-import soundfile
-import torch
-import torchaudio
-
+einops
+num2words
+soundfile
+spacy
+tokenizers
+torch
+torchaudio

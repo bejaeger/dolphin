@@ -14,7 +14,11 @@
 - [ ] data
   - [ ] get & transform test data
   - [ ] extract snac codes from data
+  - [x] add tokenizer
 - [ ] model
   - [x] add snac model
   - [ ] add gpt2 model
 - [ ] train loop
+
+## tests to perform
+- [ ] do proper text verbalization before tokenization like in [pl-bert](https://github.com/yl4579/PL-BERT/blob/main/text_normalize.py)
