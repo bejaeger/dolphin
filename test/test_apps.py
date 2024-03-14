@@ -25,6 +25,10 @@ class TestApps(unittest.TestCase):
 
         self.assertTrue(os.path.isfile(output_path), "Output file was not created")
 
+    def test_generate_text_app(self):
+        cmd = "python3.9 -m app.generate_text --num_samples 1 --max_new_tokens 50"
+        self._test_app(cmd, "app.generate_text")
+
 
 if __name__ == '__main__':
     unittest.main()

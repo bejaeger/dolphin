@@ -5,6 +5,7 @@ singleton_decorator
 soundfile
 spacy
 pandas
+tiktoken
 tokenizers
 torch
 torchaudio
