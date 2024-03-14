@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from data.text import BPETokenizer
+from data.text import Tokenizer, Tokenizers
 from data.text.normalizer import TextNormalizers
 
 logging.basicConfig(level=logging.INFO)
@@ -10,8 +10,9 @@ logging.basicConfig(level=logging.INFO)
 def main(args: argparse.Namespace) -> None:
     text = args.text
     normalizer = args.normalizer
+    tokenizer = args.tokenizer
 
-    tokenizer = BPETokenizer(normalizer=normalizer)
+    tokenizer = Tokenizer.create(tokenizer=tokenizer, normalizer=normalizer)
 
     logging.info("ORIGINAL")
     logging.info(text)
@@ -26,6 +27,11 @@ def main(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--text", default="hello (23 Jan 2020, 12:10 AM)")
+    parser.add_argument(
+        "-k",
+        "--tokenizer",
+        choices=[t.value for t in Tokenizers],
+        default=Tokenizers.BPE.value)
     parser.add_argument(
         "-n",
         "--normalizer",
