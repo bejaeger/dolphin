@@ -1,0 +1,3 @@
+[submodule "snac_24khz"]
+	path = snac_24khz
+	url = https://huggingface.co/hubertsiuzdak/snac_24khz

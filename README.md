@@ -7,7 +7,7 @@
 ## install
 1. clone repo
 2. update submodules `git submodule update --init --recursive`
-3. download snac model using git lfs `cd model/snac/snac_24khz` & `git lfs pull` 
+3. download snac model using git lfs `cd model/codec/snac/snac_24khz` & `git lfs pull` 
 4. install dependencies `pip install -r requirements.txt`
 
 ## roadmap

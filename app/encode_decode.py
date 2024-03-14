@@ -6,7 +6,7 @@ import torch
 import torchaudio
 import soundfile
 
-from model.snac.snac import SNAC
+from model.codec.snac.snac import SNAC
 
 logging.basicConfig(level=logging.INFO)
 
