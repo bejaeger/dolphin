@@ -1,7 +1,10 @@
 einops
 num2words
+nltk
+singleton_decorator
 soundfile
 spacy
+pandas
 tokenizers
 torch
 torchaudio

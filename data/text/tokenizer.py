@@ -8,12 +8,11 @@
 import os
 from typing import *
 
-import torch
 from numpy.typing import NDArray
 from torch import Tensor
 from tokenizers import Tokenizer
 
-from .normalizer import TextNormalizer
+from .normalizer import TextNormalizer, TextNormalizers
 
 
 class BPETokenizer:
@@ -25,8 +24,8 @@ class BPETokenizer:
     STOP_TOKEN = "[STOP]"
     UNK_TOKEN = "[UNK]"
 
-    def __init__(self, vocab_file: str = DEFAULT_VOCAB_FILE):
-        self._normalizer = TextNormalizer.create(normalizer="en_tortoise")
+    def __init__(self, normalizer: Union[TextNormalizers, str], vocab_file: str = DEFAULT_VOCAB_FILE):
+        self._normalizer = TextNormalizer.create(normalizer=normalizer)
 
         if not os.path.exists(vocab_file):
             raise FileNotFoundError(f"Vocab file not found: `{vocab_file}`")
