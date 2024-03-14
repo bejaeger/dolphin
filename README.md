@@ -12,13 +12,15 @@
 
 ## roadmap
 - [ ] data
-  - [ ] get & transform test data
-  - [ ] extract snac codes from data
-  - [x] add tokenizer
+  - [ ] code to prepare data (audio, text, snac codes)
+  - [ ] get & transform test dataset (500h)
+  - [x] add normalizer & tokenizer
 - [ ] model
   - [x] add snac model
-  - [ ] add gpt2 model
+  - [x] add gpt2 model
+  - [ ] adapt gpt2 to predict snac codes
 - [ ] train loop
+- [ ] api & app to synthesize speech
 
-## tests to perform
-- [ ] do proper text verbalization before tokenization like in [pl-bert](https://github.com/yl4579/PL-BERT/blob/main/text_normalize.py)
+## future projects
+- [ ] use RWKV insntead of gpt2 https://github.com/BlinkDL/RWKV-LM
