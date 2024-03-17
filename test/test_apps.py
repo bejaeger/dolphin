@@ -25,7 +25,7 @@ class TestApps(unittest.TestCase):
         input_path = 'resource/dataset/example_audio/voice_sample_tiny.wav'
         output_path = 'out/test.wav'
 
-        cmd = f"python3.9 -m app.encode_decode -m {model_path} -i {input_path} -o {output_path}"
+        cmd = f"python3.9 -m app.encode_decode_audio -m {model_path} -i {input_path} -o {output_path}"
         self._test_app(cmd, "app.encode_decode")
 
         self.assertTrue(os.path.isfile(output_path), "Output file was not created")

@@ -1,10 +1,12 @@
 import json
 import logging
 import math
+from typing import *
 
 import numpy as np
 import torch
 import torchaudio
+from numpy.typing import NDArray
 from torch import Tensor
 from torch import nn
 
@@ -68,7 +70,9 @@ class SNAC(nn.Module):
     def sample_rate(self) -> int:
         return self.sampling_rate
 
-    def preprocess(self, audio_data: Tensor, sample_rate: int):
+    def preprocess(self, audio_data: Union[NDArray, Tensor], sample_rate: int):
+        if not isinstance(audio_data, Tensor):
+            audio_data = torch.from_numpy(audio_data.astype(np.float32))
         if sample_rate != self.sample_rate:
             logging.warn(f"Resample audio from `{sample_rate}` to `{self.sample_rate}`")
             audio_data = \
@@ -101,10 +105,10 @@ class SNAC(nn.Module):
         Shape: audio_data: [B, 1, T]
         """
         audio_data = self.preprocess(audio_data=audio_data, sample_rate=sample_rate)
-        audio_length = audio_data.shape[-1]
         z = self.encode(audio_data)
         z, codes, commitment_loss, codebook_loss = self.quantize(z)
         x = self.decode(z)
+        audio_length = audio_data.shape[-1]        
         return x[..., :audio_length], z, codes, commitment_loss, codebook_loss
 
     @classmethod

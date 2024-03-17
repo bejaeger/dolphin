@@ -1,9 +1,12 @@
-from typing import List
+from typing import *
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
+from numpy.typing import NDArray
+from torch import Tensor
 
 from .layers import WNConv1d
 
@@ -102,7 +105,9 @@ class ResidualVectorQuantize(nn.Module):
 
         return z_q, codes, commitment_loss, codebook_loss
 
-    def z_from_codes(self, codes):
+    def z_from_codes(self, codes: Union[Sequence[NDArray], Sequence[Tensor]]) -> Sequence[Tensor]:
+        if not isinstance(codes[0], Tensor):
+            codes = [torch.from_numpy(code.astype(np.int32)) for code in codes]
         z_q = 0
         for i, code in enumerate(codes):
             z_q_i = self.quantizers[i].decode_code_and_project(code).detach()

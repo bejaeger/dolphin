@@ -13,8 +13,8 @@
 ## roadmap
 - [ ] data
   - [x] add normalizer & tokenizer
-  - [ ] add interface audio -> codes
-  - [ ] code to prepare data (audio, text, snac codes)
+  - [x] add interface audio -> codes
+  - [ ] data loader to prepare data (audio, text, snac codes)
   - [ ] get & transform test dataset (500h)
 - [ ] model
   - [x] add snac model
